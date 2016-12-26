@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "272693122297",
+    "project_id": "firebase-elim"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272693122297:android:4ef5d96d74a97c8d",
+        "android_client_info": {
+          "package_name": "blou.elim"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOVsq8T_0GTMmwnCv8XW7Q93MND2eBN6k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-89486634-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
