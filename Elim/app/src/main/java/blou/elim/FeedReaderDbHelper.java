@@ -5,15 +5,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by blou on 28/12/16.
  */
-
+//TODO la serialisation a l'air de se faire toute seule
 //class which defines the database on the phone
 //this database is going to store data when there is no internet connection
 
 //http://stackoverflow.com/questions/7363112/best-way-to-work-with-dates-in-android-sqlite
 public class FeedReaderDbHelper extends SQLiteOpenHelper {
+
+    private static final String DATE_FORMAT = "yyyy MMM dd HH:mm:ss";
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + FeedEntry.TABLE_NAME + " (" +
@@ -23,6 +29,7 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME;
+
 
     /* Inner class that defines the table contents */
     public static class FeedEntry implements BaseColumns {
@@ -45,8 +52,22 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
 
     }
 
+    public void addData(String kind,SQLiteDatabase db) {
+        Date date = new Date();//date of now
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        String date_str = sdf.format(date);
+
+        String SQL_ADDING_DATA = "INSERT INTO "+FeedEntry.TABLE_NAME+" ("+FeedEntry.COLUMN_KIND+", "+FeedEntry.COLUMN_DATE+")"
+                +" VALUES ('"+kind+"','"+date_str+"');";//TODO quand internet arrivera pour avoir la syntaxe
+        db.execSQL(SQL_ADDING_DATA);
+    }
+
     public void clearDatabase(SQLiteDatabase db) {
         db.execSQL(SQL_DELETE_ENTRIES);
         onCreate(db);
+    }
+
+    public String getDateFormat() {
+        return DATE_FORMAT;
     }
 }

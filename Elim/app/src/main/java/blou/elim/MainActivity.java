@@ -2,6 +2,7 @@ package blou.elim;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import java.sql.SQLData;
+
 public class MainActivity extends Activity implements SensorEventListener{
 
     private SensorManager mSensorManager;
@@ -24,6 +27,10 @@ public class MainActivity extends Activity implements SensorEventListener{
 
     private Tracker mTracker;
     private String name_activity="Main";
+
+    private SQLiteDatabase database;
+    private FeedReaderDbHelper feedReaderDbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +54,10 @@ public class MainActivity extends Activity implements SensorEventListener{
         /*initialize power manager for knowing if phone is in standby or not*/
         powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
 
+        /*initialize database and feedreaderhelper*/
+        feedReaderDbHelper = new FeedReaderDbHelper(this);
+        feedReaderDbHelper.onCreate(database);
+
     }
 
     @Override
@@ -61,37 +72,36 @@ public class MainActivity extends Activity implements SensorEventListener{
 
     }
 
-    //checking the state of the phone
-    //TODO store data
+    //cheking and saving/sending to server state of phone.
+    //the server will then compute the total time spent in each state
+    //TODO send data to server when 3G is here ; otherwise store in database like now
     @Override
     public void onSensorChanged(SensorEvent event) {
         boolean isStandby = !powerManager.isInteractive();
         float nearFarWhereEverYouAre = event.values[0];
         // standby+near = not in use (in the pocket)
-        if(isStandby && nearFarWhereEverYouAre == 0)
-            Log.d("STATE","NOT IN USE (POCKET)");
+        if(isStandby && nearFarWhereEverYouAre == 0) {
+            Log.d("STATE", "NOT IN USE (POCKET)");
+            feedReaderDbHelper.addData("NIU_POCKET",database);
+        }
 
         // !standby+near = in use (calling)
-        if(!isStandby && nearFarWhereEverYouAre == 0)
+        if(!isStandby && nearFarWhereEverYouAre == 0) {
             Log.d("STATE", "IN USE (PROBABLY CALLING)");
+            feedReaderDbHelper.addData("IU_CALLING",database);
+        }
 
         // standby+far = not in use
-        if(isStandby && nearFarWhereEverYouAre !=0)
-            Log.d("STATE","NOT IN USE");
+        if(isStandby && nearFarWhereEverYouAre !=0) {
+            Log.d("STATE", "NOT IN USE");
+            feedReaderDbHelper.addData("NIU",database);
+        }
 
         // !standby+far = in use
-        if(!isStandby && nearFarWhereEverYouAre !=0)
-            Log.d("STATE","IN USE");
-    }
-
-    //0 : not in use (in the pocket)
-    //1 : not in use
-    //2 : in use (calling)
-    //3 : in use (not calling)
-    //format : [DATE]:[STATE]
-    //TODOd
-    public void stockData(int state) {
-
+        if(!isStandby && nearFarWhereEverYouAre !=0) {
+            Log.d("STATE", "IN USE");
+            feedReaderDbHelper.addData("IU",database);
+        }
     }
 
     @Override
