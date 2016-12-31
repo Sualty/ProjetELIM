@@ -56,8 +56,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 
         /*initialize database and feedreaderhelper*/
         feedReaderDbHelper = new FeedReaderDbHelper(this);
-        feedReaderDbHelper.onCreate(database);
-
+        database = feedReaderDbHelper.getWritableDatabase();
     }
 
     @Override

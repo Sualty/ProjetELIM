@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,8 +25,8 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + FeedEntry.TABLE_NAME + " (" +
                     FeedEntry._ID + " INTEGER PRIMARY KEY," +
-                    FeedEntry.COLUMN_KIND+ "TEXT" + "," +
-                    FeedEntry.COLUMN_DATE+ "TEXT"+ " )";
+                    FeedEntry.COLUMN_KIND+ " TEXT," +
+                    FeedEntry.COLUMN_DATE+ " TEXT"+ " );";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME;
@@ -44,12 +45,14 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.d("LALALALA",SQL_CREATE_ENTRIES);
         db.execSQL(SQL_CREATE_ENTRIES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        Log.d("LALALALA UPGRADE",SQL_CREATE_ENTRIES);
+        onCreate(db);
     }
 
     public void addData(String kind,SQLiteDatabase db) {
@@ -58,7 +61,8 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
         String date_str = sdf.format(date);
 
         String SQL_ADDING_DATA = "INSERT INTO "+FeedEntry.TABLE_NAME+" ("+FeedEntry.COLUMN_KIND+", "+FeedEntry.COLUMN_DATE+")"
-                +" VALUES ('"+kind+"','"+date_str+"');";//TODO quand internet arrivera pour avoir la syntaxe
+                +" VALUES ('"+kind+"','"+date_str+"');";
+        Log.d("LALALALA ADD",SQL_ADDING_DATA);
         db.execSQL(SQL_ADDING_DATA);
     }
 
