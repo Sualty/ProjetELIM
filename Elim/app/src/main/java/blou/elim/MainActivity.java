@@ -37,7 +37,6 @@ public class MainActivity extends Activity implements SensorEventListener{
         setContentView(R.layout.activity_main);
 
         /*example of how to send infos to google analytics*/
-        //TODO see how to stock infos when not connected to internet?
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
         Log.i("BLOUBLOUBLOU", "ONCREATE: " + name_activity);

@@ -13,11 +13,9 @@ import java.util.Date;
 /**
  * Created by blou on 28/12/16.
  */
-//TODO la serialisation a l'air de se faire toute seule
 //class which defines the database on the phone
 //this database is going to store data when there is no internet connection
 
-//http://stackoverflow.com/questions/7363112/best-way-to-work-with-dates-in-android-sqlite
 public class FeedReaderDbHelper extends SQLiteOpenHelper {
 
     private static final String DATE_FORMAT = "yyyy MMM dd HH:mm:ss";
