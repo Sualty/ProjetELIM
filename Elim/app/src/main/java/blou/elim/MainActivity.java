@@ -2,6 +2,7 @@ package blou.elim;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -11,10 +12,16 @@ import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.SQLData;
 
@@ -22,8 +29,10 @@ public class MainActivity extends Activity implements SensorEventListener{
 
     private SensorManager mSensorManager;
     private Sensor mSensor;
-    private TextView textView;
+    private TextView proximitySensorValue;
     private PowerManager powerManager;
+
+    private WebClient webClient;
 
     private Tracker mTracker;
     private String name_activity="Main";
@@ -36,15 +45,15 @@ public class MainActivity extends Activity implements SensorEventListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        webClient = new WebClient();
+        webClient.execute();
+
         /*example of how to send infos to google analytics*/
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
         Log.i("BLOUBLOUBLOU", "ONCREATE: " + name_activity);
         mTracker.setScreenName("ONCREATE" + name_activity);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-
-        //testing how to collect info from proximity sensor
-        textView = (TextView)findViewById(R.id.textview_proximity_test);
 
         /*initializing proximity sensor*/
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -56,6 +65,44 @@ public class MainActivity extends Activity implements SensorEventListener{
         /*initialize database and feedreaderhelper*/
         feedReaderDbHelper = new FeedReaderDbHelper(this);
         database = feedReaderDbHelper.getWritableDatabase();
+
+        Button sendDatasButton = (Button)findViewById(R.id.send_datas);
+        sendDatasButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                webClient.sendData(getDatasJson());
+                database.delete("datas", null, null);
+//                Cursor cursor = database.rawQuery("select * from datas",null);
+//                if (cursor.moveToFirst()) {
+//                    String[] allNames = cursor.getColumnNames();
+//                    for(String column : allNames){
+//                        Log.d("COLUMN", column);
+//                    }
+//                }
+            }
+        });
+    }
+
+    private String getDatasJson(){
+        Cursor cursor = database.rawQuery("select * from datas",null);
+        JSONArray datasJson = new JSONArray();
+        if (cursor.moveToFirst()) {
+            do {
+                String[] allNames = cursor.getColumnNames();
+                JSONObject item = new JSONObject();
+                for (String column : allNames) {
+                    String value = cursor.getString(cursor.getColumnIndex(column));
+                    try {
+                        item.put(column, value);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Log.d("VALUE", "Column : " + column + " Value : " + value);
+                }
+                datasJson.put(item);
+            } while (cursor.moveToNext());
+        }
+        return datasJson.toString();
     }
 
     @Override
@@ -66,8 +113,6 @@ public class MainActivity extends Activity implements SensorEventListener{
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         mSensorManager.registerListener(this, mSensor,SensorManager.SENSOR_DELAY_NORMAL);
-
-
     }
 
     //cheking and saving/sending to server state of phone.
@@ -75,6 +120,9 @@ public class MainActivity extends Activity implements SensorEventListener{
     //TODO send data to server when 3G is here ; otherwise store in database like now
     @Override
     public void onSensorChanged(SensorEvent event) {
+        proximitySensorValue = (TextView) findViewById(R.id.proximity_sensor_value);
+        proximitySensorValue.setText(String.valueOf(event.values[0]));
+
         boolean isStandby = !powerManager.isInteractive();
         float nearFarWhereEverYouAre = event.values[0];
         // standby+near = not in use (in the pocket)

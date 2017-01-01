@@ -11,8 +11,31 @@
     tools:context="blou.elim.MainActivity">
 
     <TextView
-        android:id="@+id/textview_proximity_test"
+        android:id="@+id/proximity_sensor_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Captor value" />
+        android:text="Captor value :"
+        android:textSize="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/proximity_sensor_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unknown"
+        android:textSize="20dp"
+        android:layout_marginLeft="244dp"
+        android:layout_below="@+id/proximity_sensor_label"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:text="Send datas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/send_datas"
+        android:layout_below="@+id/proximity_sensor_value"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

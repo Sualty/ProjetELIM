@@ -1,5 +1,6 @@
 package blou.elim;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -18,21 +19,29 @@ import java.net.Socket;
 //TODO utiliser ce client dans mainactivity pour
 //TODO - envoyer les données du capteur quand on a accès à internet et sinon stocker en bdd locale
 //TODO - envoyer  les données de la bdd dès qu'on récupère internet
-public class WebClient {
-    public static final String SERVERIP = "192.168.43.168"; //your computer IP address
+public class WebClient extends AsyncTask<Void, Void, Void> {
+    public static final String SERVERIP = "192.168.1.47"; //your computer IP address
     public static final int SERVERPORT = 8080;
 
     private PrintWriter out;
     private BufferedReader in;
 
+    public WebClient(){}
+
     public void sendData(String json){
-        if (out != null && !out.checkError()) {
-            out.println(json);
-            out.flush();
-        }
+        Log.d("SEND DATA", "BEFORE");
+        out.println(json);
+        out.flush();
+//        if (out != null && !out.checkError()) {
+//            Log.d("SEND DATA", "AFTER");
+//            out.println(json);
+//            out.flush();
+//        }
     }
 
-    public void run() {
+    @Override
+    public Void doInBackground(Void... arg0) {
+        Log.d("WEB SERVER", "RUN METHOD");
         try {
             InetAddress serverAddr = InetAddress.getByName(SERVERIP);
 
@@ -46,8 +55,10 @@ public class WebClient {
 
                 //getting back response from server
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                out.println("TEST");
+                out.flush();
                 String tmp = in.readLine();
-                while (tmp!=null) {
+                while (tmp != null) {
                     Log.d("SERVER RESPONSE",tmp);
                     tmp= in.readLine();
                 }
@@ -64,5 +75,6 @@ public class WebClient {
             Log.e("EXCEPTION", e.toString());
         }
 
+        return null;
     }
 }
