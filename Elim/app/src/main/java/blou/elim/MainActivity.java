@@ -9,8 +9,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.PowerManager;
+import android.provider.Settings;
+import android.provider.Telephony;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLData;
+
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends Activity implements SensorEventListener{
 
@@ -40,8 +45,11 @@ public class MainActivity extends Activity implements SensorEventListener{
     private SQLiteDatabase database;
     private FeedReaderDbHelper feedReaderDbHelper;
 
+    private String androidId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        androidId = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -72,13 +80,6 @@ public class MainActivity extends Activity implements SensorEventListener{
             public void onClick(View view) {
                 webClient.sendData(getDatasJson());
                 database.delete("datas", null, null);
-//                Cursor cursor = database.rawQuery("select * from datas",null);
-//                if (cursor.moveToFirst()) {
-//                    String[] allNames = cursor.getColumnNames();
-//                    for(String column : allNames){
-//                        Log.d("COLUMN", column);
-//                    }
-//                }
             }
         });
     }
@@ -102,7 +103,14 @@ public class MainActivity extends Activity implements SensorEventListener{
                 datasJson.put(item);
             } while (cursor.moveToNext());
         }
-        return datasJson.toString();
+        JSONObject datasToSend = new JSONObject();
+        try {
+            datasToSend.put("id", androidId);
+            datasToSend.put("value", datasJson);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return datasToSend.toString();
     }
 
     @Override
