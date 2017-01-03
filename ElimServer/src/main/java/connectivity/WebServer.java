@@ -86,13 +86,16 @@ public class WebServer {
                 PrintWriter out = new PrintWriter(client.getOutputStream());
 
                 String result="";
-                String line;
-                while ((line = in.readLine()) != null) {
-                    System.out.println("Data : " + line);
-                    result+=line;
+                while((result = in.readLine()) != null){
+                    System.out.println("Data : " + result);
+                    try{
+                        parseAndStoreJSON(result);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
                 }
 
-                parseAndStoreJSON(result);
+
                 System.out.println(result);
                 out.close(); // Flush and close the output stream
                 in.close(); // Close the input stream
