@@ -10,7 +10,6 @@ import java.net.Socket;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 
 //TODO ce serveur renvoie ce qu'a envoyé le tel ; faudrait qu'il fasse autre chose ; définir les communications
@@ -93,6 +92,7 @@ public class WebServer {
                 }
 
                 parseAndStoreJSON(result);
+
                 System.out.println(result);
                 out.close(); // Flush and close the output stream
                 in.close(); // Close the input stream
