@@ -93,7 +93,7 @@ public class WebServer {
                         System.out.println(e);
                     }
                 }
-                
+
                 parseAndStoreJSON(result);
 
                 System.out.println(result);
