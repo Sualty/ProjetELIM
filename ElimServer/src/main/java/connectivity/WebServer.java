@@ -32,24 +32,27 @@ public class WebServer {
             System.out.println("File is created!");
         }
         else{
-            System.out.println("File already exists.");
+           /* System.out.println("File already exists.");
             BufferedReader reader = new BufferedReader(new FileReader(file));
             pocket = Long.parseLong(reader.readLine());
             calling = Long.parseLong(reader.readLine());
             niu = Long.parseLong(reader.readLine());
-            iu = Long.parseLong(reader.readLine());
+            iu = Long.parseLong(reader.readLine());*/
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm:ss");
 
         JSONArray array_json = json_object.getJSONArray("value");//TODO
-        for (int i = 0; i < array_json.length()-1; i++) {//TODO on oublie le dernier
+
+ /*       for (int i = 0; i < array_json.length()-1; i++) {//TODO on oublie le dernier (toujours d'actualité ou pas?....)
             JSONObject datas = array_json.getJSONObject(i);
             JSONObject datas_apres = array_json.getJSONObject(i+1);
 
+            System.out.println("datestr");
             String datestr = datas.getString("day");
             Date date = sdf.parse(datestr);
 
+            System.out.println("datestr_apres");
             String datestr_apres = datas_apres.getString("day");
             Date date_apres = sdf.parse(datestr_apres);
 
@@ -105,6 +108,6 @@ public class WebServer {
         catch (Exception e) {
             System.err.println(e);
             System.err.println("Usage: java HttpMirror <port>");
-        }
+        }*/
     }
 }

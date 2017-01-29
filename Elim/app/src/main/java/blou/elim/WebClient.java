@@ -15,12 +15,11 @@ import java.net.Socket;
  * Created by blou on 28/12/16.
  */
 
-//TODO vérifier que ça marche x3
 //TODO utiliser ce client dans mainactivity pour
 //TODO - envoyer les données du capteur quand on a accès à internet et sinon stocker en bdd locale
 //TODO - envoyer  les données de la bdd dès qu'on récupère internet
 public class WebClient extends AsyncTask<Void, Void, Void> {
-    public static final String SERVERIP = "192.168.1.156"; //your computer IP address
+    public static final String SERVERIP = "192.168.43.168"; //your computer IP address
     public static final int SERVERPORT = 8080;
 
     private PrintWriter out;
@@ -52,7 +51,7 @@ public class WebClient extends AsyncTask<Void, Void, Void> {
             try {
                 //sending json of datas
                 out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-
+                System.out.println("out has bee done");
                 //getting back response from server
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String tmp = in.readLine();

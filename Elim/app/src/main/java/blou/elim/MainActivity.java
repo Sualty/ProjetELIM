@@ -27,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLData;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static java.security.AccessController.getContext;
 
@@ -105,7 +107,14 @@ public class MainActivity extends Activity implements SensorEventListener{
         }
         JSONObject datasToSend = new JSONObject();
         try {
+            //putting date of today
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm:ss");
+            Date date = new Date();
+            String datestr = sdf.format(date);
+            datasToSend.put("dateToday",datestr);
+            //putting id of phone
             datasToSend.put("id", androidId);
+            //putting datas
             datasToSend.put("value", datasJson);
         } catch (JSONException e) {
             e.printStackTrace();
