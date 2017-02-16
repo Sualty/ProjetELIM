@@ -17,6 +17,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -28,6 +29,7 @@ import org.json.JSONObject;
 
 import java.sql.SQLData;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import static java.security.AccessController.getContext;
@@ -82,6 +84,29 @@ public class MainActivity extends Activity implements SensorEventListener{
             public void onClick(View view) {
                 webClient.sendData(getDatasJson());
                 database.delete("datas", null, null);
+            }
+        });
+
+        final Calendar calendar = Calendar.getInstance();
+        DatePicker datePicker = (DatePicker) findViewById((R.id.datePicker));
+        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+                JSONObject dataToSend = new JSONObject();
+//                Date d = new Date(i, i1, i2);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm:ss");
+                calendar.set(i, i1, i2);
+                Date d = calendar.getTime();
+                String date = sdf.format(d);
+                Log.d("Date bis : ", "test : " + date);
+                try {
+                    dataToSend.put("type", "prediction");
+                    dataToSend.put("id", androidId);
+                    dataToSend.put("date", date);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                webClient.sendData(dataToSend.toString());
             }
         });
     }
