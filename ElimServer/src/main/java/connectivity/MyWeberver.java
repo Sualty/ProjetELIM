@@ -30,7 +30,7 @@ public class MyWeberver {
         File global_data_file = new File(id+"global_data.data");
 
         if(global_data_file.createNewFile()) {
-            System.out.println("Global data file i created!");
+            System.out.println("Global data file is created!");
         }
 
         if (tmp_day_data_file.createNewFile()){
@@ -127,10 +127,13 @@ public class MyWeberver {
                         iu+=l;
                     // on fait un random forest sur date
                     String day = new SimpleDateFormat("EE").format(date);
+
+                    System.out.println("bloublou "+pocket+" "+calling+" "+niu+" "+iu);
+
                     String prediction = randomForestAnalysis.basicPrediction(pocket,calling,niu,iu);
                     // on stocke le résultat dans le fichier global de l'utilisateur
                     FileWriter writer = new FileWriter(global_data_file,true);
-                    writer.write(prediction+","+day+","+pocket+","+calling+","+niu+","+iu+"\n");
+                    writer.write(prediction+";"+day+";"+pocket+";"+calling+";"+niu+";"+iu+"\n");
                     writer.close();
                     //on change la date stockée par date_apres
                     tmp_date = date_apres;
@@ -211,6 +214,38 @@ public class MyWeberver {
         }
         return result;
     }
+
+//TODO check type of operation in main for doing this
+    public String getKindOfUserFromDate(String json) throws JSONException, ParseException, IOException {
+        String result = "";
+
+        JSONObject json_object = new JSONObject(json);
+        String id = json_object.getString("id");
+        String date_str = json_object.getString("date");
+
+        Date date = sdf.parse(date_str);
+        String day = new SimpleDateFormat("EE").format(date);
+
+        //fichier global
+        File global_data_file = new File(id+"global_data.data");
+        if(global_data_file!=null) {
+
+            BufferedReader reader = new BufferedReader(new FileReader(global_data_file));
+            String tmp = reader.readLine();
+            while(tmp!=null ) {
+                String[] tab = tmp.split(";");
+                String d = tab[1];
+                if(day.equals(d)) {
+//TODO inprogress
+                }
+            }
+        }
+        return result;
+    }
+
+    public String getProbaFromString(String string) {
+        String result ="";
+        //TODO
+        return result;
+    }
 }
-
-
