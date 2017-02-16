@@ -37,7 +37,13 @@ public class Main {
                 while((result = in.readLine()) != null){
                     System.out.println("Data : " + result);
                     try{
-                        myWeberver.parseAndStoreJSON(result);
+                        if(result.contains("prediction")){
+                            String myType = myWeberver.getKindOfUserFromDate(result);
+                            out.write("blabla");
+                            out.flush();
+                        } else {
+                            myWeberver.parseAndStoreJSON(result);
+                        }
                     } catch (Exception e) {
                         System.out.println(e);
                     }

@@ -141,6 +141,7 @@ public class MainActivity extends Activity implements SensorEventListener{
             datasToSend.put("id", androidId);
             //putting datas
             datasToSend.put("value", datasJson);
+            datasToSend.put("type", "sendData");
         } catch (JSONException e) {
             e.printStackTrace();
         }
