@@ -70,7 +70,7 @@ public class MyWeberver {
                 Date date_apres = sdf.parse(datestr_apres);
                 System.out.println("datestr_apres");
 
-                if(tmp_date.getDay() != date.getDay() && tmp_date.getDay() == date.getMonth()) {
+                if(tmp_date.getDay() != date.getDay() && tmp_date.getMonth() == date.getMonth()) {
                     //si la date stockée et date sont différentes,
                     // on fait un random forest sur tmp_date
                     String day = new SimpleDateFormat("EE").format(tmp_date);
@@ -261,7 +261,6 @@ public class MyWeberver {
                             result_proba_tab[4]++;
                             break;
                     }
-
                 }
                 tmp = reader.readLine();
             }
