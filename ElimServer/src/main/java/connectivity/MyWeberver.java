@@ -314,8 +314,6 @@ public class MyWeberver {
         }
 
         //ces deux string devraient être identiques
-        System.out.println(string);
-        System.out.println(caller+idle+player+pocket+"");
 
         if(pocket>player && pocket>caller && pocket>idle)
             return KindOfUserEnum.POCKET_USER.getTxt();

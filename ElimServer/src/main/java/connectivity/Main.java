@@ -38,13 +38,11 @@ public class Main {
                     System.out.println("Data : " + result);
                     try{
                         if(result.contains("prediction")){
-                            System.out.println("bloublou");
                             String myType = myWeberver.getKindOfUserFromDate(result);
                             out.write(myType+"\n");
                             out.flush();
                         } else {
-                            myWeberver.parseAndStoreJSON(result);
-                            System.out.println("coucou");
+                            myWeberver.parseAndStoreJSON(result);;
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

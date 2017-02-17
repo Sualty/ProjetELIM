@@ -18,7 +18,7 @@ import java.net.Socket;
 //TODO utiliser ce client dans mainactivity pour
 //TODO - envoyer les données du capteur quand on a accès à internet et sinon stocker en bdd locale
 //TODO - envoyer  les données de la bdd dès qu'on récupère internet
-public class WebClient extends AsyncTask<Void, Void, Void> {
+public class WebClient extends AsyncTask<String, Integer, Long> {
     public static final String SERVERIP = "192.168.43.168"; //your computer IP address
     public static final int SERVERPORT = 8080;
 
@@ -43,7 +43,7 @@ public class WebClient extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    public Void doInBackground(Void... arg0) {
+    public Long doInBackground(String... arg0) {
         Log.d("WEB SERVER", "RUN METHOD");
         try {
             InetAddress serverAddr = InetAddress.getByName(SERVERIP);
@@ -59,23 +59,22 @@ public class WebClient extends AsyncTask<Void, Void, Void> {
                 //getting back response from server
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 Log.d("TMP", "avant read line");
-                String tmp = in.readLine();
-                ma.setTextLabel(tmp);
+                //Log.d("STRING STOCKEE",tmp);
                 Log.d("TMP", "après read line");
+                String tmp = in.readLine();
+                //Log.d("reponse", tmp + "bloubloublou");
                 while (tmp != null) {
-                    Log.d("reponse",tmp);
-                    tmp= in.readLine();
+                    tmp = in.readLine();
+                    Log.d("reponse", tmp + "bloubloublou");
+                    ma.toastPrediction(tmp);
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Log.e("EXCEPTION", e.toString());
-            }
-            finally {
+            } finally {
                 socket.close();
             }
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e("EXCEPTION", e.toString());
         }
 

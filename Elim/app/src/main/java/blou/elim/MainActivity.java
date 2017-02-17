@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -111,9 +112,19 @@ public class MainActivity extends Activity implements SensorEventListener{
         });
     }
 
-    public void setTextLabel(String tmp){
-        TextView tv = (TextView) findViewById(R.id.userType);
-        tv.setText(tmp);
+    public void toastPrediction(String tmp){
+        final String t = tmp;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, t, duration);
+                toast.show();
+            }
+        });
+
     }
 
     private String getDatasJson(){
