@@ -77,7 +77,8 @@ public class MyWeberver {
                     String prediction = randomForestAnalysis.basicPrediction(pocket,calling,niu,iu);
                     // on stocke le résultat dans le fichier global de l'utilisateur
                     FileWriter writer = new FileWriter(global_data_file,true);
-                    writer.write(prediction+","+day+","+pocket+","+calling+","+niu+","+iu+"\n");
+                    //writer.write(prediction+","+day+","+pocket+","+calling+","+niu+","+iu+"\n");
+                    writer.write(prediction+";"+day+"\n");//TODO blou
                     writer.close();
                     //on change la date stockée par date
                     tmp_date = date;
@@ -282,22 +283,35 @@ public class MyWeberver {
 
     public String getProbaFromString(String string) {
         //TODO
-        float player = -1;
-        float caller = -1;
-        float idle = -1;
-        float pocket = -1;
+        float player = 0;
+        float caller = 0;
+        float idle = 0;
+        float pocket = 0;
         //type de la chaine : {assoc=VAL, caller=VAL, idle_user=VAL, pocket_user=VAL}
         //VAL à 18 caractères
-        string = string.replace("{caller=","");
-        string = string.replace(", idle_user=,","");
-        string = string.replace(", player=","");
-        string = string.replace(", pocket_user=","");
-        string = string.replace("}","");
-
-        caller = Integer.parseInt(string.substring(0,17));
-        idle = Integer.parseInt(string.substring(18,35));
-        player = Integer.parseInt(string.substring(36,53));
-        pocket = Integer.parseInt(string.substring(54,71));
+        String[] tab_proba = string.split(",");
+        for(String str : tab_proba) {
+            if(str.contains(KindOfUserEnum.POCKET_USER.getTxt())) {
+                str = str.replaceAll("[\\D]", "");
+                str = str.substring(0,1)+"."+str.substring(1,str.length());
+                pocket = Float.parseFloat(str);
+            }
+            else if(str.contains(KindOfUserEnum.CALLER.getTxt())) {
+                str = str.replaceAll("[\\D]", "");
+                str = str.substring(0,1)+"."+str.substring(1,str.length());
+                caller = Float.parseFloat(str);
+            }
+            else if(str.contains(KindOfUserEnum.IDLE_USER.getTxt())) {
+                str = str.replaceAll("[\\D]", "");
+                str = str.substring(0,1)+"."+str.substring(1,str.length());
+                idle = Float.parseFloat(str);
+            }
+            else if(str.contains(KindOfUserEnum.PLAYER.getTxt())) {
+                str = str.replaceAll("[\\D]", "");
+                str = str.substring(0,1)+"."+str.substring(1,str.length());
+                pocket = Float.parseFloat(str);
+            }
+        }
 
         //ces deux string devraient être identiques
         System.out.println(string);
