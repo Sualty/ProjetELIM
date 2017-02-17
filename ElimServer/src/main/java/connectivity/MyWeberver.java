@@ -1,14 +1,19 @@
 package connectivity;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import randomForest.KindOfUserEnum;
 import randomForest.RandomForestAnalysis;
 
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 
 public class MyWeberver {
@@ -232,28 +237,86 @@ public class MyWeberver {
 
             BufferedReader reader = new BufferedReader(new FileReader(global_data_file));
             String tmp = reader.readLine();
+
+            int[] result_proba_tab = {0,0,0,0,0};
             while(tmp!=null ) {
                 String[] tab = tmp.split(";");
                 String d = tab[1];
                 if(day.equals(d)) {
+                    String proba = getProbaFromString(tab[0]);
+                    switch (proba) {
+                        case "caller":
+                            result_proba_tab[0]++;
+                            break;
+                        case "idle_user":
+                            result_proba_tab[1]++;
+                            break;
+                        case "player":
+                            result_proba_tab[2]++;
+                            break;
+                        case "pocket_user":
+                            result_proba_tab[3]++;
+                            break;
+                        case "equilibrate_user":
+                            result_proba_tab[4]++;
+                            break;
+                    }
 
                 }
+                tmp = reader.readLine();
             }
+            List<Integer> b = Arrays.asList(ArrayUtils.toObject(result_proba_tab));
+            int max = Collections.max(b);
+            if(max ==result_proba_tab[0])
+                result = KindOfUserEnum.CALLER.getTxt();
+            else if(max ==result_proba_tab[1])
+                result = KindOfUserEnum.IDLE_USER.getTxt();
+            else if(max ==result_proba_tab[2])
+                result = KindOfUserEnum.PLAYER.getTxt();
+            else if(max ==result_proba_tab[3])
+                result = KindOfUserEnum.POCKET_USER.getTxt();
+            else if(max ==result_proba_tab[4])
+                result = KindOfUserEnum.EQUILIBRATE.getTxt();
         }
         return result;
     }
 
     public String getProbaFromString(String string) {
-        String result ="";
         //TODO
-        /*
-            IDLE_USER("idle_user"),//niu en majorité
-    POCKET_USER("pocket_user"),//pocket
-    CALLER("caller"),//iu+calling
-    PLAYER("associal");//iu
-         */
-        //type de la chaine : {associal=VAL, caller=VAL, idle_user=VAL, pocket_user=VAL}
+        float player = -1;
+        float caller = -1;
+        float idle = -1;
+        float pocket = -1;
+        //type de la chaine : {assoc=VAL, caller=VAL, idle_user=VAL, pocket_user=VAL}
+        //VAL à 18 caractères
+        string = string.replace("{caller=","");
+        string = string.replace(", idle_user=,","");
+        string = string.replace(", player=","");
+        string = string.replace(", pocket_user=","");
+        string = string.replace("}","");
 
-        return result;
+        caller = Integer.parseInt(string.substring(0,17));
+        idle = Integer.parseInt(string.substring(18,35));
+        player = Integer.parseInt(string.substring(36,53));
+        pocket = Integer.parseInt(string.substring(54,71));
+
+        //ces deux string devraient être identiques
+        System.out.println(string);
+        System.out.println(caller+idle+player+pocket+"");
+
+        if(pocket>player && pocket>caller && pocket>idle)
+            return KindOfUserEnum.POCKET_USER.getTxt();
+
+        else if(idle>player && idle>caller && idle>pocket)
+            return KindOfUserEnum.IDLE_USER.getTxt();
+
+        else if(player+caller>0.5)
+            return KindOfUserEnum.CALLER.getTxt();
+
+        else if(player>caller && player>idle && player>pocket)
+            return KindOfUserEnum.PLAYER.getTxt();
+
+        else
+            return KindOfUserEnum.EQUILIBRATE.getTxt();
     }
 }
