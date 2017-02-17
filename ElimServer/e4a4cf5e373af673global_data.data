@@ -2,20 +2,35 @@
 {pocket_user=0.15, idle_user=0.02, player=0.18, caller=0.75};mar.
 {pocket_user=0.625, idle_user=0.125, player=0.25};mer.
 {pocket_user=0.18, idle_user=0,15, player=0.67};jeu.
+{pocket_user=0.38, player=0.62};ven.
+{pocket_user=0.81, idle_user=0.049, player=0.141};sam.
+{pocket_user=0.04, idle_user=0.057, caller=0.903};dim.
 {pocket_user=0.1, idle_user=0.03, player=0.22, caller=0.65};lun.
 {pocket_user=0.05, idle_user=0.02, player=0.32, caller=0.61};mar.
 {pocket_user=0.75, player=0.25};mer.
 {pocket_user=0.88, player=0.105, caller=0.015};jeu.
+{pocket_user=0.32, idle_user=0.05, player=0.02, caller=0.61};ven.
+{pocket_user=0.159, idle_user=0.701, caller=0.14};sam.
+{pocket_user=0.215, idle_user=0.785};dim.
 {pocket_user=0,15, idle_user=0.67, player=0.18};lun.
 {pocket_user=0.040, idle_user=0.059, caller=0.901};mar.
 {pocket_user=0.6875, idle_user=0.08333333333333333, player=0.22916666666666666};mer.
 {pocket_user=0.25, idle_user=0.625, player=0.125};jeu.
+{pocket_user=0.77, player=0.08, caller=0.15};ven.
+{pocket_user=0.35, player=0.65};sam.
+{pocket_user=0.617, player=0.185, caller=0.218};dim.
 {pocket_user=0.6, idle_user=0.22, player=0.18};lun.
 {pocket_user=0.015, player=0.88, caller=0.105};mar.
 {pocket_user=0.82, idle_user=0.019, player=0.161};mer.
 {pocket_user=0.059, idle_user=0.901, caller=0.040};jeu.
+{pocket_user=0.329, idle_user=0.671};ven.
+{pocket_user=0.3, idle_user=0.03, player=0.02, caller=0.65};sam.
+{pocket_user=0.177, idle_user=0,153, player=0.67};dim.
 {pocket_user=0.832, player=0.168};lun.
 {player=0.72, caller=0.28};mar.
 {pocket_user=0.46, idle_user=0.01, player=0.28, caller=0.35};mer.
 {pocket_user=0.32, idle_user=0.05, player=0.02, caller=0.61};jeu.
+{pocket_user=0.1, idle_user=0.13, player=0.12, caller=0.45};ven.
+{pocket_user=0.361, player=0.639};sam.
+{pocket_user=0.32, idle_user=0.15, player=0.22, caller=0.31};dim.
 
