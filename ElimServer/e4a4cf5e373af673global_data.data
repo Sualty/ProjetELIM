@@ -1,3 +1,17 @@
-{pocket_user=0.625, idle_user=0.125, player=0.25},mar.
+{pocket_user=0.229, idle_user=0.771},lun.
+{pocket_user=0.15, idle_user=0.02, player=0.18, caller=0.75},mar.
+{pocket_user=0.625, idle_user=0.125, player=0.25},mer.
+{pocket_user=0.1, idle_user=0.03, player=0.22, caller=0.65},lun.
+{pocket_user=0.05, idle_user=0.02, player=0.32, caller=0.61},mar.
 {pocket_user=0.75, player=0.25},mer.
+{pocket_user=0,15, idle_user=0.67, player=0.18},lun.
+{pocket_user=0.040, idle_user=0.059, caller=0.901},mar.
 {pocket_user=0.6875, idle_user=0.08333333333333333, player=0.22916666666666666},mer.
+{pocket_user=0.25, idle_user=0.625, player=0.125},jeu.
+{pocket_user=0.6, idle_user=0.22, player=0.18},lun.
+{pocket_user=0.015, player=0.88, caller=0.105},mar.
+{pocket_user=0.82, idle_user=0.019, player=0.161},mer.
+{pocket_user=0.059, idle_user=0.901, caller=0.040},jeu.
+{pocket_user=0.832, player=0.168},lun.
+{player=0.72, caller=0.28},mar.
+{pocket_user=0.46, idle_user=0.01, player=0.28, caller=0.35},mer.

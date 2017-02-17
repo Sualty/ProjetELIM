@@ -47,7 +47,7 @@ public class Main {
                             System.out.println("coucou");
                         }
                     } catch (Exception e) {
-                        System.out.println(e);
+                        e.printStackTrace();
                     }
                 }
                 //TODO out
@@ -57,7 +57,7 @@ public class Main {
             }
         }
         catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
             System.err.println("Usage: java HttpMirror <port>");
         }
     }
