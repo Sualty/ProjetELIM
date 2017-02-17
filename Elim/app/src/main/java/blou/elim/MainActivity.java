@@ -57,7 +57,7 @@ public class MainActivity extends Activity implements SensorEventListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        webClient = new WebClient();
+        webClient = new WebClient(this);
         webClient.execute();
 
         /*example of how to send infos to google analytics*/
@@ -109,6 +109,11 @@ public class MainActivity extends Activity implements SensorEventListener{
                 webClient.sendData(dataToSend.toString());
             }
         });
+    }
+
+    public void setTextLabel(String tmp){
+        TextView tv = (TextView) findViewById(R.id.userType);
+        tv.setText(tmp);
     }
 
     private String getDatasJson(){

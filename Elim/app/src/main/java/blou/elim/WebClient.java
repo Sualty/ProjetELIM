@@ -22,10 +22,14 @@ public class WebClient extends AsyncTask<Void, Void, Void> {
     public static final String SERVERIP = "192.168.43.168"; //your computer IP address
     public static final int SERVERPORT = 8080;
 
+    public MainActivity ma;
+
     private PrintWriter out;
     private BufferedReader in;
 
-    public WebClient(){}
+    public WebClient(MainActivity ma){
+        this.ma = ma;
+    }
 
     public void sendData(String json){
         Log.d("SEND DATA", "BEFORE");
@@ -51,12 +55,15 @@ public class WebClient extends AsyncTask<Void, Void, Void> {
             try {
                 //sending json of datas
                 out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-                System.out.println("out has bee done");
+                Log.d("OUT", "out has bee done");
                 //getting back response from server
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                Log.d("TMP", "avant read line");
                 String tmp = in.readLine();
+                ma.setTextLabel(tmp);
+                Log.d("TMP", "après read line");
                 while (tmp != null) {
-                    Log.d("SERVER RESPONSE",tmp);
+                    Log.d("reponse",tmp);
                     tmp= in.readLine();
                 }
             }
