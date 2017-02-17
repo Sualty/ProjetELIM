@@ -236,7 +236,7 @@ public class MyWeberver {
                 String[] tab = tmp.split(";");
                 String d = tab[1];
                 if(day.equals(d)) {
-//TODO inprogress
+
                 }
             }
         }
@@ -246,6 +246,14 @@ public class MyWeberver {
     public String getProbaFromString(String string) {
         String result ="";
         //TODO
+        /*
+            IDLE_USER("idle_user"),//niu en majorité
+    POCKET_USER("pocket_user"),//pocket
+    CALLER("caller"),//iu+calling
+    PLAYER("associal");//iu
+         */
+        //type de la chaine : {associal=VAL, caller=VAL, idle_user=VAL, pocket_user=VAL}
+
         return result;
     }
 }
