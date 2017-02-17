@@ -39,8 +39,8 @@ public class Main {
                     try{
                         if(result.contains("prediction")){
                             System.out.println("bloublou");
-                            //String myType = myWeberver.getKindOfUserFromDate(result);
-                            out.write("blabla"+"\n");
+                            String myType = myWeberver.getKindOfUserFromDate(result);
+                            out.write(myType+"\n");
                             out.flush();
                         } else {
                             myWeberver.parseAndStoreJSON(result);
