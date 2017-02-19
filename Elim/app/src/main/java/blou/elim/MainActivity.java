@@ -14,10 +14,13 @@ import android.provider.Telephony;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,8 +61,28 @@ public class MainActivity extends Activity implements SensorEventListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        webClient = new WebClient(this);
+        webClient = new WebClient(returnThis(),"192.168.43.168");
         webClient.execute();
+
+        final EditText text = (EditText)findViewById(R.id.ip_zone);
+        text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {//killing webclient and then reload it
+                webClient.cancel(true);
+                webClient = new WebClient(returnThis(),text.getText().toString());
+                webClient.execute();
+            }
+        });
 
         /*example of how to send infos to google analytics*/
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
@@ -212,5 +235,9 @@ public class MainActivity extends Activity implements SensorEventListener{
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    public MainActivity returnThis() {
+        return  this;
     }
 }

@@ -19,7 +19,7 @@ import java.net.Socket;
 //TODO - envoyer les données du capteur quand on a accès à internet et sinon stocker en bdd locale
 //TODO - envoyer  les données de la bdd dès qu'on récupère internet
 public class WebClient extends AsyncTask<String, Integer, Long> {
-    public static final String SERVERIP = "192.168.43.168"; //your computer IP address
+    public static String SERVERIP; //your computer IP address
     public static final int SERVERPORT = 8080;
 
     public MainActivity ma;
@@ -27,8 +27,12 @@ public class WebClient extends AsyncTask<String, Integer, Long> {
     private PrintWriter out;
     private BufferedReader in;
 
-    public WebClient(MainActivity ma){
+    public WebClient(MainActivity ma,String ip_address){
         this.ma = ma;
+        if(ip_address.length()<=2)
+            this.SERVERIP = "192.168.43.168";
+        else
+            this.SERVERIP = ip_address;
     }
 
     public void sendData(String json){

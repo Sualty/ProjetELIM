@@ -14,10 +14,15 @@ import java.util.List;
  * Created by blou on 29/01/17.
  */
 /*
+Différence entre classification et prédiction :
 If you are trying to classify existing data, e.g. group patients based on their known medical data and treatment outcome,
 I would call it a classification. If you use a classification model to predict the treatment outcome for a new patient,
 it would be a prediction.
 */
+
+/**
+ * Classe effectuant l'analyse RF.
+ */
 public class RandomForestAnalysis {
     /**
      * Selon les infos d'un jour, prédire osn profil à partir du dataset
@@ -41,16 +46,5 @@ public class RandomForestAnalysis {
 
         System.out.println("Prediction: " + randomForest.predict(attributes));
         return randomForest.predict(attributes).toString();
-    }
-
-    //but 2 : selon le jour (lundi, mardi, etc)et le passif de l'utilisateur, connaître son profil
-    public String predictionOfThiDayProfile(String android_id) {
-    return "";
-    }
-
-    public static void main(String[] args) throws IOException {
-
-
-
     }
 }

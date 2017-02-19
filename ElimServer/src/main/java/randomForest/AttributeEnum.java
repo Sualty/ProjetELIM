@@ -1,8 +1,6 @@
 package randomForest;
 
-/**
- * Created by blou on 29/01/17.
- */
+
 public enum AttributeEnum {
     DAY_NAME("day_name"),
     POCKET_TIME("pocket_time"),

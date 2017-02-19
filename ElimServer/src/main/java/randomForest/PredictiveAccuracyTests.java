@@ -12,6 +12,9 @@ import java.nio.Buffer;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
+/**
+ * classe définissant les sets de données
+ */
 public class PredictiveAccuracyTests {
     private static final Logger logger = LoggerFactory.getLogger(PredictiveAccuracyTests.class);
 
@@ -41,28 +44,4 @@ public class PredictiveAccuracyTests {
 
         return instances;
     }
-
-
-    /*public static  List<ClassifierInstance> loadIrisDataset() throws IOException {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream("iris.data");
-        final BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        final List<ClassifierInstance> instances = Lists.newLinkedList();
-
-        String[] headings = new String[]{"sepal-length", "sepal-width", "petal-length", "petal-width"};
-
-        String line = br.readLine();
-        while (line != null) {
-            String[] splitLine = line.split(",");
-
-            AttributesMap attributes = AttributesMap.newHashMap();
-            for (int x = 0; x < splitLine.length - 1; x++) {
-                attributes.put(headings[x], Double.valueOf((String)splitLine[x]));
-            }
-            instances.add(new ClassifierInstance(attributes, splitLine[splitLine.length - 1]));
-            line = br.readLine();
-        }
-
-        return instances;
-    }*/
 }

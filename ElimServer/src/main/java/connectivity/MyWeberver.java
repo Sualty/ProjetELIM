@@ -25,6 +25,13 @@ public class MyWeberver {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm:ss");
     private RandomForestAnalysis randomForestAnalysis = new RandomForestAnalysis();
 
+    /**
+     * Récupère une string JSON envoyée par l'action "sendData" de l'application et stocke les infos
+     * @param json
+     * @throws JSONException
+     * @throws IOException
+     * @throws ParseException
+     */
     public void parseAndStoreJSON(String json) throws JSONException, IOException, ParseException {
         JSONObject json_object = new JSONObject(json);
 
@@ -63,12 +70,10 @@ public class MyWeberver {
 
                 String datestr = datas.getString("day");
                 Date date = sdf.parse(datestr);
-                System.out.println("datestr");
 
 
                 String datestr_apres = datas_apres.getString("day");
                 Date date_apres = sdf.parse(datestr_apres);
-                System.out.println("datestr_apres");
 
                 if(tmp_date.getDay() != date.getDay() && tmp_date.getMonth() == date.getMonth()) {
                     //si la date stockée et date sont différentes,
@@ -160,19 +165,18 @@ public class MyWeberver {
         }
     }
 
-    public void writeDataWhenNothing(File file, JSONObject json_object) throws JSONException, ParseException, IOException {
+
+    private void writeDataWhenNothing(File file, JSONObject json_object) throws JSONException, ParseException, IOException {
         String dateToday = json_object.getString("dateToday");
         JSONArray array_json = json_object.getJSONArray("value");
 
-        for (int i = 0; i < array_json.length()-1; i++) {//TODO on oublie le dernier (toujours d'actualité ou pas?....)
+        for (int i = 0; i < array_json.length()-1; i++) {
             JSONObject datas = array_json.getJSONObject(i);
             JSONObject datas_apres = array_json.getJSONObject(i+1);
 
-            System.out.println("datestr");
             String datestr = datas.getString("day");
             Date date = sdf.parse(datestr);
 
-            System.out.println("datestr_apres");
             String datestr_apres = datas_apres.getString("day");
             Date date_apres = sdf.parse(datestr_apres);
 
@@ -194,7 +198,7 @@ public class MyWeberver {
         writer.close();
     }
 
-    public Date getDateFromTmpFile(File file) {
+    private Date getDateFromTmpFile(File file) {
         Date result = null;
         BufferedReader reader = null;
         try {
@@ -221,7 +225,6 @@ public class MyWeberver {
         return result;
     }
 
-//TODO check type of operation in main for doing this
     public String getKindOfUserFromDate(String json) throws JSONException, ParseException, IOException {
         String result = "";
 
@@ -281,8 +284,7 @@ public class MyWeberver {
         return result;
     }
 
-    public String getProbaFromString(String string) {
-        //TODO
+    private String getProbaFromString(String string) {
         float player = 0;
         float caller = 0;
         float idle = 0;
